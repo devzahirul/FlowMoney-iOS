@@ -1,169 +1,235 @@
-# FlowMoney — Personal Finance for iOS
+<div align="center">
 
-**Track · Plan · Save · Grow.** A production-grade personal finance app built with SwiftUI, Swift 6 and Supabase:
-accounts, transactions, budgets, savings goals, subscriptions, cash-flow and net-worth analytics, insights,
-reminders, Face ID lock and PDF/CSV export — offline-first, synced across devices.
+<img src="App/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="96" alt="FlowMoney icon">
 
-| Light | Dark |
-|---|---|
-| <img src="docs/screenshots/light-02-home.png" width="260"> <img src="docs/screenshots/light-06-budgets.png" width="260"> <img src="docs/screenshots/light-08-analytics.png" width="260"> | <img src="docs/screenshots/dark-02-home.png" width="260"> <img src="docs/screenshots/dark-04-transactions.png" width="260"> <img src="docs/screenshots/dark-03-add-expense.png" width="260"> |
+# FlowMoney
 
-Screenshots are produced by a UI test (`ScreenshotTests`) on a real iPhone 13, so they always show the current build.
-More in [`docs/screenshots`](docs/screenshots).
+**An offline-first personal finance app for iOS — built to App Store standard.**
 
----
+SwiftUI · Swift 6 strict concurrency · 16 SPM modules · Supabase (Postgres + Auth + RLS) · 100+ tests on a real iPhone · CI/CD to TestFlight
 
-## At a glance
+[![CI](https://github.com/devzahirul/FlowMoney-iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/devzahirul/FlowMoney-iOS/actions/workflows/ci.yml)
+![Swift 6](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)
+![iOS 17+](https://img.shields.io/badge/iOS-17%2B-000000?logo=apple)
+![Concurrency](https://img.shields.io/badge/strict%20concurrency-complete-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-| | |
-|---|---|
-| **Stack** | Swift 6 (strict concurrency, 0 warnings), SwiftUI, Observation (`@Observable`), Swift Charts, swift-testing |
-| **Architecture** | MVVM + unidirectional data flow, 16 SPM modules, pure `Domain` layer, offline-first repository ([why](#why-this-architecture)) |
-| **Backend** | Supabase (Postgres + Auth), Row Level Security on every table, pgTAP tests for the policies |
-| **Tests** | 102 unit tests + 5 UI tests — **all run on a physical iPhone 13 (iOS 26.7)** and in CI |
-| **CI/CD** | GitHub Actions: lint, tests, Release build, database tests; tag → TestFlight |
-| **Size** | 6.2 MB stripped binary, 0 embedded frameworks (everything statically linked) |
-| **Dependencies** | One: `supabase-swift` (Auth + PostgREST products only), isolated in a single module |
-| **App Store** | Privacy manifest, account deletion, Sign-out wipes local data, demo mode for App Review, no tracking |
+<img src="docs/screenshots/light-02-home.png" width="200"> <img src="docs/screenshots/light-03-add-expense.png" width="200"> <img src="docs/screenshots/light-06-budgets.png" width="200"> <img src="docs/screenshots/dark-08-analytics.png" width="200">
 
-## Features (screens from the [design](docs/design/FlowMoneyApp.png))
-
-- **Onboarding, sign in, sign up** (live password checklist), password reset, **demo mode** that works with no account
-- **Dashboard**: total balance with 6-month trend, quick actions, this month's income/spending, budgets, recent activity
-- **Accounts**: checking, savings, cards, loans, investments, property — balances computed from transactions
-- **Transactions**: day-grouped list, search (diacritic-insensitive, by amount too), filters, swipe to edit/delete, detail
-- **Add expense / income**: custom keypad, category grid, merchant suggestions that also pick the category
-- **Calendar** heat map of daily spending; **Search** across transactions, accounts and goals
-- **Budgets**: monthly limits per category, "on pace to go over" projection, 6-month chart, merchant breakdown
-- **Savings goals**: progress rings, on-track projection, "save $X/month to make it", contribution history
-- **Subscriptions & recurring**: bills auto-post on their due date — exactly once, even across devices
-- **Insights**: cash flow, spending analytics (week/month/year donut), monthly report, net worth over time, tips
-- **Notifications centre** derived from your data (budget alerts, goal milestones, large transactions, renewals)
-- **Reminders**: local notifications the day before a subscription renews + a weekly summary
-- **Security**: Face ID / Touch ID app lock, app-switcher privacy cover, "hide balances" mode
-- **Export**: multi-page PDF report or RFC-4180 CSV via the share sheet
-- **Settings**: appearance, currency (10 currencies incl. zero-decimal JPY), sync status, account deletion
-
-> Screens 25–26 of the design (Wallet / Payment Methods with "freeze card") were deliberately left out: a budgeting app
-> that shows card controls it can't actually perform would mislead users and risk App Review rejection (guideline 2.3.1).
+</div>
 
 ---
 
-## Why this architecture
+## For reviewers: what this repository proves
 
-**Choice: MVVM with `@Observable` view models, a pure Domain layer, and an offline-first repository, split into SPM modules.**
+Every claim below links to the code, test or pipeline that backs it.
 
-| Option | Verdict for this app |
+| Senior iOS skill | Evidence in this repo |
 |---|---|
-| **MVVM + `@Observable`** ✅ | Apple-native (iOS 17 Observation): views re-render only for properties they actually read — fine-grained updates with zero framework overhead. View models are plain classes, tested without UI. No dependency to keep up with. |
-| **TCA (Composable Architecture)** | Excellent for very large teams wanting one enforced pattern, but adds a heavy dependency, macro-heavy compile times, and a learning curve for every client developer who inherits the code. The testability benefits are already achieved here with pure functions + injected repositories. |
-| **VIPER / Clean-VIP** | 5 files per screen, built for UIKit; with SwiftUI the router/presenter split fights the framework's data flow. |
-| **MV (views talk to models directly)** | Fastest to write, but business rules leak into views and can't be unit-tested. |
+| **Architecture that scales with a team** | 16 SPM modules with compiler-enforced boundaries — features never import each other ([`Package.swift`](Packages/FlowKit/Package.swift), [ARCHITECTURE.md](docs/ARCHITECTURE.md)) |
+| **Modern Swift, done correctly** | Swift 6 language mode, complete concurrency checking, **0 warnings enforced** (`-warnings-as-errors`), typed throws, `@Observable`, actors, `InternalImportsByDefault` |
+| **Hard problems, not just screens** | Offline-first sync engine that survives actor re-entrancy, clock skew and concurrent devices ([`LocalLedgerRepository`](Packages/FlowKit/Sources/LedgerData/LocalLedgerRepository.swift), [ADR-0002](docs/adr/0002-offline-first-sync.md)) |
+| **Test-driven, deterministic tests** | 102 swift-testing unit tests + 5 XCUITest flows, **run on a physical iPhone 13** and in CI; fixed UTC calendar and injected clocks, no `sleep()` ([`Tests/`](Packages/FlowKit/Tests)) |
+| **Backend & security** | Supabase Postgres with Row Level Security on every table, proven by **14 pgTAP assertions in CI** ([`rls_test.sql`](supabase/tests/rls_test.sql)) |
+| **Shipping discipline** | CI: lint · tests · release build · DB tests. Tag `v*` → versioned, cloud-signed **TestFlight** upload with dSYMs ([workflows](.github/workflows)) |
+| **App Store readiness** | Privacy manifest, account deletion (5.1.1(v)), demo mode for App Review, Face ID lock, no tracking ([`PrivacyInfo.xcprivacy`](App/Resources/PrivacyInfo.xcprivacy)) |
+| **Engineering judgment** | Trade-offs written down as ADRs, including what was deliberately *not* built and why ([`docs/adr`](docs/adr)) |
 
-What makes it **scale and stay fast**:
+**By the numbers:** ~12,000 lines of product Swift · 16 modules · 1 third-party dependency · 6.2 MB stripped binary · 0 embedded frameworks · 28 screens · light + dark · Dynamic Type · VoiceOver labels.
 
-1. **`Domain` is pure Swift** — budgets, cash flow, net worth, recurrence, insights, alerts, CSV, validation. No SwiftUI,
-   no networking, no I/O: ~60 tests run in milliseconds, and every business rule is proven once.
-2. **One source of truth** — `LedgerRepository` streams immutable `LedgerSnapshot`s. A screen subscribes once; any change
-   (from any screen *or another device via sync*) re-renders it. There's no "refresh after edit" code anywhere.
-3. **Snapshots are built off the main thread** by the repository actor, with O(1) indexes (balances, goal totals) and
-   binary-searched date ranges, so derived screens never scan thousands of rows per frame. View models skip recomputing
-   when the snapshot revision hasn't changed.
-4. **Features never import each other.** Navigation uses typed `Route` values; one file in `AppFeature` maps routes to
-   screens. Any feature builds, previews and tests alone; parallel team work doesn't collide.
-5. **The backend is swappable.** Only `SupabaseBackend` imports the SDK and maps SDK errors to domain errors. Replacing
-   Supabase with Firebase or a custom API touches one module.
+---
 
-Details and trade-offs are recorded as ADRs in [`docs/adr`](docs/adr), and the module map is in
-[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+## The product
+
+A complete money manager implementing a 30-screen design ([reference](docs/design/FlowMoneyApp.png)):
+
+- **Dashboard** — total balance with a 6-month trend, quick actions, this month's income/spending, budgets, recent activity
+- **Accounts** — checking, savings, cards, loans, investments, property; balances derived from transactions
+- **Transactions** — day-grouped list, diacritic-insensitive search (also by amount), filters, swipe actions, calendar heat map
+- **Add expense / income** — custom keypad, category grid, merchant suggestions that also pick the category
+- **Budgets** — monthly limits with *"on pace to go over"* projections, 6-month history, merchant breakdown
+- **Savings goals** — progress rings, on-track projection, *"save $X a month to get there on time"*
+- **Subscriptions & bills** — auto-posted on their due date, exactly once, even across several devices
+- **Insights** — cash flow, spending analytics (week / month / year), monthly report, net worth over time, personalised tips
+- **Notifications** — derived from the data (budget alerts, goal milestones, large transactions, renewals) plus local reminders
+- **Security & data** — Face ID app lock, app-switcher privacy cover, hide-balances mode, PDF and CSV export
+- **Accounts & auth** — sign up, sign in, password reset *and* email-confirmation deep links, account deletion, and a no-signup demo
+
+> Screens 25–26 of the design (a card "wallet" with *freeze card*) were **deliberately not built**: a budgeting app that
+> displays card controls it can't actually perform would mislead users and invite App Review rejection (guideline 2.3.1).
+
+---
+
+## Architecture
+
+**MVVM with `@Observable` view models, a pure `Domain` layer and an offline-first repository, split into SPM modules.**
 
 ```mermaid
 graph LR
-  App[App target<br/>1 file] --> AppFeature
-  AppFeature --> Features[Home · Activity · Accounts<br/>Plan · Insights · Profile · Auth]
+  App["App target<br/>(1 file)"] --> AppFeature
+  AppFeature --> Features["7 feature modules<br/>Home · Activity · Accounts · Plan<br/>Insights · Profile · Auth"]
   AppFeature --> LedgerData
   AppFeature --> SupabaseBackend
   Features --> LedgerUI --> DesignSystem --> Domain
   Features --> Routing --> Domain
   LedgerData --> Domain --> FlowCore
   SupabaseBackend --> LedgerData
-  SupabaseBackend -.-> SDK[(supabase-swift<br/>Auth + PostgREST)]
+  SupabaseBackend -.-> SDK[("supabase-swift<br/>Auth + PostgREST")]
 ```
 
-## Offline-first sync, done properly
+### Why this architecture, and not the alternatives
 
-Writes hit local state and disk instantly; an **outbox** records what changed; a background sync pushes and pulls.
+| Option | Decision |
+|---|---|
+| **MVVM + `@Observable`** ✅ | Apple-native Observation re-renders a view only for the properties it actually reads. View models are plain classes, tested without UI. Nothing to upgrade, nothing for the next developer to learn. |
+| TCA | Great for very large teams that want one enforced pattern, but a heavy dependency with slow macro-heavy builds. Its testability is achieved here with pure functions and injected repositories. |
+| VIPER | Five files per screen and a UIKit mindset; fights SwiftUI's data flow. |
+| MV (no view models) | Fastest to write; business rules leak into views and can't be unit-tested. |
 
-- **Client-generated UUIDs** → rows are created offline and upserted idempotently.
-- **Outbox keyed by row** → ten edits to one transaction while offline upload as **one** upsert of the latest version.
-- **Edits made during an in-flight push are never lost** — the actor is re-entrant across `await`, so the outbox is only
-  cleared for rows whose revision didn't change meanwhile (there's a test that edits mid-push).
-- **Server-stamped `updated_at`** and **soft deletes** → deletions reach other devices through the same "changed since" pull.
-- **Pull overlap window** — Postgres `now()` is the transaction *start* time, so a row can commit with an older timestamp
-  than rows already pulled. Re-reading 60 s behind the cursor (merge is idempotent) guarantees nothing is missed.
-- **Deterministic IDs** for auto-posted recurring bills (`UUID(namespace: rule, name: date)`) and for budgets
-  (one per category) — two offline devices produce the *same* row, so the server merges instead of duplicating.
-- The 7 table pulls run **concurrently** (`async let`) and page through results 1,000 rows at a time.
+**How it stays fast and scalable:**
 
-## Backend & security (Supabase)
+1. **All business rules are pure Swift** in `Domain` — no SwiftUI, no I/O. Budgets, projections, recurrence, net worth,
+   insights and export are proven once, in milliseconds.
+2. **One source of truth.** The repository streams immutable `LedgerSnapshot`s; a screen subscribes once and updates on any
+   change — from another screen or another device. There is no "refresh after editing" code anywhere.
+3. **Work happens off the main thread.** Snapshots and their O(1) indexes are built by the repository actor; date ranges
+   use binary search; net-worth history is one backwards pass (O(n + months)); view models skip unchanged revisions.
+4. **Compiler-enforced boundaries.** Features navigate with typed `Route` values and never import each other; only
+   `SupabaseBackend` can see the SDK, so swapping the backend touches one module.
 
-`supabase/migrations` defines the schema; [`supabase/README.md`](supabase/README.md) sets up a free project in ~5 minutes.
+Decisions and trade-offs: [ADR-0001 architecture](docs/adr/0001-mvvm-observable-spm-modules.md) ·
+[0002 sync](docs/adr/0002-offline-first-sync.md) · [0003 persistence](docs/adr/0003-json-snapshot-persistence.md) ·
+[0004 money](docs/adr/0004-single-currency-integer-money.md) · [0005 backend](docs/adr/0005-supabase-behind-one-module.md)
 
-- Own **`flowmoney` Postgres schema** — runs side by side with another app in one project without collisions.
-- **Row Level Security** on every table, `user_id` defaults to `auth.uid()` and can't be changed by the client.
-- **Composite foreign keys** `(account_id, user_id)` — a user can't attach a row to someone else's account even by guessing its ID.
-- Money is `bigint` minor units (exact), with `CHECK` constraints mirroring client validation.
-- No client `DELETE` grants — soft deletes only; `delete_my_account()` (App Store 5.1.1(v)) cascades everything.
-- `supabase/tests/rls_test.sql` — **pgTAP tests** prove isolation between users; CI runs them on every push.
-- Sessions live in the **Keychain**; only the *publishable* key ships in the app; local data is encrypted at rest with
+---
+
+## Engineering deep dives
+
+The interesting part of an app like this isn't the screens — it's the problems below. Each has a test.
+
+### 1. An offline sync engine that never loses an edit
+Writes land on disk instantly and are recorded in an **outbox keyed by row**, so ten offline edits to one transaction
+upload as **one** upsert. Swift actors are *re-entrant* across `await`: a user can edit a row while that row is being
+pushed. The engine only clears outbox entries whose revision didn't change during the push — otherwise the newer edit
+would silently vanish. → `editDuringPushSurvives()` in [`LocalLedgerRepositoryTests`](Packages/FlowKit/Tests/LedgerDataTests/LocalLedgerRepositoryTests.swift)
+
+### 2. Not missing rows because of how Postgres timestamps work
+`now()` in Postgres is the *transaction start* time, so a row can commit with an `updated_at` older than rows a client has
+already pulled. Pulls re-read a 60-second window behind the cursor; merging is idempotent, so the overlap is free insurance.
+
+### 3. Two offline phones, one row
+Recurring bills are auto-posted with **deterministic UUIDs** (`UUID(namespace: rule, name: dueDate)`), and budgets get one
+ID per category. Two devices working offline produce the *same* row, and the server upsert merges them — instead of
+duplicating rent, or hitting a unique index that would block sync forever. → [`RecurringPoster`](Packages/FlowKit/Sources/Domain/Analytics/RecurringPoster.swift)
+
+### 4. Exact money, and month-end dates that don't drift
+Money is `Int64` minor units with banker's rounding (zero-decimal currencies like JPY included) — never `Double`.
+Recurrences are computed from the start date, not chained, so *Jan 31 → Feb 28 → Mar 31* instead of drifting to the 28th.
+
+### 5. Bugs the tests caught before users could
+- Swift's synthesized `Codable` **omits `nil`** — so "restore a deleted item" (`deleted_at = null`) would never have
+  reached the server. Every row now encodes explicit nulls; a test pins the exact JSON keys to the SQL columns.
+- The sync status reported the wrong pending count at launch.
+- Two offline devices creating the same budget would have wedged sync on a unique index.
+- A pgTAP test found that Supabase's default privileges granted `DELETE` to API roles; grants are now explicit.
+
+### 6. A launch crash that only happened from the Home Screen
+Hosting the on-device unit tests in the app linked the same package modules into two binaries, so Xcode silently
+switched them to dynamic frameworks without embedding them — `dyld` aborted before `main`. Diagnosed from the device
+crash report, fixed at the root with a separate empty test-host app, so the app links statically exactly as it ships.
+
+---
+
+## Backend & security
+
+[`supabase/`](supabase) holds the schema, the tests and a 5-minute setup guide.
+
+- **Own `flowmoney` Postgres schema** — the app runs side by side with another app in one Supabase project with zero
+  collisions; the shared sign-up trigger is exception-safe so FlowMoney can never block the other app's sign-ups.
+- **Row Level Security on every table.** `user_id` defaults to `auth.uid()` and is immutable; **composite foreign keys**
+  `(account_id, user_id)` stop a user attaching data to someone else's account even with a guessed ID.
+- Anonymous clients get nothing; signed-in users get `select/insert/update` only — deletes are soft, and
+  `delete_my_account()` removes the user's data server-side.
+- Money is `bigint` with `CHECK` constraints mirroring client validation; `updated_at` is server-stamped.
+- Sessions in the **Keychain** (PKCE flow); only the publishable key ships; local data encrypted at rest with
   Data Protection; sign-out wipes the local ledger and device preferences.
+- Email links (`flowmoney://auth/confirm`, `flowmoney://auth/reset`) exchange a one-time PKCE code for a session and
+  route password resets to an in-app *Set new password* screen.
+
+---
 
 ## Testing
 
 ```
-✔ Test run with 102 tests in 31 suites passed          (swift-testing, iPhone 13 · iOS 26.7)
-✔ FlowMoneyUITests: 5 critical paths passed            (XCUITest, same device)
+✔ Test run with 102 tests in 31 suites passed          swift-testing · iPhone 13 · iOS 26.7
+✔ FlowMoneyUITests — 5 critical paths passed           XCUITest · same device
+✔ supabase test db — 14 RLS assertions passed          pgTAP · CI
 ```
 
-- **Domain** — table-driven tests for money rounding, budgets & projections, cash flow, net worth history, goal
-  on-track math, month-end recurrence (Jan 31 → Feb 28 → Mar 31), insights, alerts, search, CSV escaping & formula-injection defence.
-- **Sync engine** — offline coalescing, edit-during-push, remote deletes, conflict resolution, relaunch from disk, expired session.
-- **Backend mapping** — JSON keys match SQL columns exactly, PostgREST microsecond timestamps, unknown enum values degrade gracefully.
-- **View models & app shell** — auth flows, editor, budget suggestions, session state machine, app lock, deep links.
-- **Deterministic**: fixed UTC calendar and injected clocks — no `sleep`, no flakiness.
+| Layer | What's covered |
+|---|---|
+| Domain | money rounding, budgets & projections, cash flow, net-worth history, goal math, month-end recurrence, insights, alerts, search, CSV escaping & formula-injection defence |
+| Sync engine | offline coalescing, edit during push, remote deletes, conflict resolution, relaunch from disk, expired session |
+| Backend | JSON keys ↔ SQL columns, PostgREST microsecond timestamps, unknown enums degrade gracefully, error mapping |
+| View models & shell | auth flows, keypad editor, budget suggestions, session state machine, app lock, deep links, reminder planning |
+| UI | demo onboarding, add expense end-to-end, form validation, every tab, sign-out |
+| Database | users can't read, change, delete or reference each other's rows; constraints hold |
 
-Bugs these tests caught before they shipped: synthesized `Codable` omitting `nil` (so "restore" would never reach the
-server), wrong pending-count at launch, and a unique-index collision that would have wedged sync for two offline devices.
+App Store screenshots are produced by a UI test (`ScreenshotTests`) on the device, so they always match the build.
+
+---
 
 ## CI/CD
 
-| Workflow | What it does |
+| Workflow | Runs |
 |---|---|
-| [`ci.yml`](.github/workflows/ci.yml) | SwiftLint `--strict` + SwiftFormat · unit + UI tests · Release build (warnings = errors) · Postgres migrations + pgTAP RLS tests |
-| [`release.yml`](.github/workflows/release.yml) | On tag `v*`: version from tag, build number from run, cloud-signed archive, upload to TestFlight, dSYMs kept as artifact |
+| [`ci.yml`](.github/workflows/ci.yml) — every push & PR | SwiftLint `--strict` + SwiftFormat · unit + UI tests · Release build (warnings = errors) · Postgres migrations + pgTAP |
+| [`release.yml`](.github/workflows/release.yml) — tag `v1.2.3` | version from the tag, build number from the run, cloud-managed signing, archive, **upload to TestFlight**, dSYMs kept |
 
-## Getting started
+## App Store readiness checklist
+
+- [x] Privacy manifest with required-reason APIs and collected-data declarations
+- [x] In-app account deletion · sign-out wipes local data
+- [x] Demo mode, so App Review can use every feature without an account
+- [x] Face ID lock, app-switcher privacy cover, Keychain sessions, encrypted local storage
+- [x] Dark mode, Dynamic Type, VoiceOver labels, 44 pt targets, haptics
+- [x] 1024 px opaque app icon, launch screen, portrait iPhone, `ITSAppUsesNonExemptEncryption = NO`
+- [x] Automated TestFlight pipeline with symbol upload
+
+## Known limitations & next steps
+
+Honest scope notes (details in the ADRs): single-currency ledger (changing currency re-labels, not converts) ·
+row-level last-writer-wins (no field-level merge) · tombstone purge job not yet scheduled · English only (string
+catalogs are the next step) · JSON snapshot store sized for personal ledgers — the `LedgerPersistence` protocol is the
+seam for moving to SQLite beyond ~20k rows.
+
+---
+
+## Run it
 
 ```bash
 make bootstrap   # xcodegen, swiftlint, swiftformat, xcbeautify
-make open        # generates FlowMoney.xcodeproj and opens it
 make run         # build, install and launch on the connected iPhone
 make test        # 102 unit + 5 UI tests on the connected iPhone
 ```
 
-It runs **without any backend** (demo mode). To enable cloud sync, follow [`supabase/README.md`](supabase/README.md)
-and copy `Config/Supabase.local.example.xcconfig` → `Config/Supabase.local.xcconfig`.
-
-## Project layout
+Works immediately in **demo mode** with no backend. For cloud sync, follow [`supabase/README.md`](supabase/README.md) and
+copy `Config/Supabase.local.example.xcconfig` → `Config/Supabase.local.xcconfig`.
 
 ```
-App/                    1 Swift file (@main) + assets + privacy manifest
-Packages/FlowKit/       all product code: 16 modules + tests
-supabase/               migrations, pgTAP tests, local config
-docs/                   architecture, ADRs, screenshots, design reference
-.github/workflows/      CI + TestFlight release
+App/                  1 Swift file (@main) + assets + privacy manifest
+Packages/FlowKit/     all product code: 16 modules + tests
+TestHost/             empty app that hosts unit tests on a device
+supabase/             schema migration, pgTAP tests, local config
+docs/                 architecture, ADRs, screenshots, design reference
+.github/workflows/    CI + TestFlight release
 ```
 
 ---
 
-Built by **Thomas Zahirul** — iOS engineer (Swift · SwiftUI · Supabase). Available for work on Upwork.
+<div align="center">
+
+Built by **Thomas Zahirul** — senior iOS engineer · Swift · SwiftUI · Supabase / Firebase · CI/CD.
+**Available for work on Upwork.** Have a design, a slow screen or a sync problem? I'd be glad to help.
+
+</div>
