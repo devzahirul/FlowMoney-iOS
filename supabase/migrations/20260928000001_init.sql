@@ -158,7 +158,8 @@ begin
   loop
     execute format('create trigger stamp_row before insert or update on public.%I for each row execute function public.stamp_row()', t);
     execute format('alter table public.%I enable row level security', t);
-    execute format('revoke all on public.%I from anon', t);
+    -- Supabase's default privileges grant ALL (incl. DELETE/TRUNCATE) to API roles: start from nothing.
+    execute format('revoke all on public.%I from anon, authenticated', t);
     execute format('grant select, insert, update on public.%I to authenticated', t);
   end loop;
 

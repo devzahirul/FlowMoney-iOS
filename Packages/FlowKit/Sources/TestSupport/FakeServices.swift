@@ -1,5 +1,5 @@
 public import Domain
-public import Foundation
+import Foundation
 
 /// Scriptable `AuthService`: set `nextResult`/`signUpResult` and inspect `calls`.
 public actor FakeAuthService: AuthService {
