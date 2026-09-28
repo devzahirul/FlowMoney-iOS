@@ -1,11 +1,11 @@
 public import AuthFeature
 public import Domain
+public import Foundation
 public import LedgerUI
 public import Observation
 public import ProfileFeature
 public import Routing
 import FlowCore
-import Foundation
 import LedgerData
 
 /// The app's top-level state machine: launching → signed out ⇄ signed in (cloud or demo), plus app lock.
@@ -34,6 +34,8 @@ public final class AppModel {
     public private(set) var router = Router()
     public let preferences: AppPreferences
     public var sessionMessage: String?
+    /// Set after a password-reset link signs the user in: the UI then asks for a new password.
+    public var passwordRecoveryPending = false
 
     let environment: AppEnvironment
     private var sessionTask: Task<Void, Never>?
@@ -162,6 +164,35 @@ public final class AppModel {
     func deleteAccount() async throws {
         try await environment.auth.deleteAccount()
         await endSession(signOutRemotely: false)
+    }
+
+    // MARK: - Links
+
+    /// Handles every `flowmoney://` URL: email links go through Supabase Auth, the rest through the router.
+    public func handle(url: URL) async {
+        guard AuthRedirect.isAuthLink(url) else {
+            router.open(url)
+            return
+        }
+        do {
+            let link = try await environment.auth.handleAuthLink(url)
+            let session: AuthSession
+            switch link {
+            case let .emailConfirmed(confirmed): session = confirmed
+            case let .passwordRecovery(recovering):
+                session = recovering
+                passwordRecoveryPending = true
+            }
+            if case let .ready(scope) = phase, scope.userID == session.userID {
+                return
+            }
+            if isSignedIn {
+                await endSession(signOutRemotely: false)
+            }
+            await open(session: session)
+        } catch {
+            sessionMessage = error.localizedDescription
+        }
     }
 
     // MARK: - Lifecycle

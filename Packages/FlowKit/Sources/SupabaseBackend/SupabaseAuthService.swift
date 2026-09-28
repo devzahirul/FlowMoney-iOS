@@ -1,7 +1,7 @@
 public import Domain
+public import Foundation
 import Auth
 import FlowCore
-import Foundation
 
 /// `AuthService` backed by Supabase Auth. Sessions live in the Keychain (via `KeychainLocalStorage`) and
 /// refresh automatically; every SDK error is mapped to `Domain.AuthError` so features stay SDK-agnostic.
@@ -49,7 +49,8 @@ public final class SupabaseAuthService: AuthService {
             let response = try await client.signUp(
                 email: trimmed,
                 password: password,
-                data: ["display_name": .string(name.trimmingCharacters(in: .whitespaces))]
+                data: ["display_name": .string(name.trimmingCharacters(in: .whitespaces))],
+                redirectTo: AuthRedirect.confirmEmail
             )
             switch response {
             case let .session(session): return .signedIn(Self.map(session.user))
@@ -62,7 +63,7 @@ public final class SupabaseAuthService: AuthService {
 
     public func sendPasswordReset(email: String) async throws(Domain.AuthError) {
         do {
-            try await client.resetPasswordForEmail(email.trimmingCharacters(in: .whitespaces))
+            try await client.resetPasswordForEmail(email.trimmingCharacters(in: .whitespaces), redirectTo: AuthRedirect.resetPassword)
         } catch {
             throw Self.map(error)
         }
@@ -83,6 +84,7 @@ public final class SupabaseAuthService: AuthService {
             var request = URLRequest(url: configuration.url.appending(path: "rest/v1/rpc/delete_my_account"))
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue(SupabaseConfiguration.schema, forHTTPHeaderField: "Content-Profile")
             request.setValue(configuration.publishableKey, forHTTPHeaderField: "apikey")
             request.setValue("Bearer \(session.accessToken)", forHTTPHeaderField: "Authorization")
             request.httpBody = Data("{}".utf8)
@@ -91,6 +93,25 @@ public final class SupabaseAuthService: AuthService {
                 throw Domain.AuthError.server("Couldn't delete the account. Please try again.")
             }
             try? await client.signOut(scope: .local)
+        } catch {
+            throw Self.map(error)
+        }
+    }
+
+    public func handleAuthLink(_ url: URL) async throws(Domain.AuthError) -> AuthLink {
+        do {
+            // PKCE: the link carries a one-time code; the verifier was stored on this device when the email was requested.
+            let session = try await client.session(from: url)
+            let user = Self.map(session.user)
+            return url.path().hasPrefix("/reset") ? .passwordRecovery(user) : .emailConfirmed(user)
+        } catch {
+            throw Self.map(error)
+        }
+    }
+
+    public func updatePassword(_ newPassword: String) async throws(Domain.AuthError) {
+        do {
+            try await client.update(user: UserAttributes(password: newPassword))
         } catch {
             throw Self.map(error)
         }
@@ -132,6 +153,9 @@ public final class SupabaseAuthService: AuthService {
         if let urlError = error as? URLError, urlError.isConnectivityProblem {
             return .offline
         }
+        if case .pkceGrantCodeExchange = error as? Auth.AuthError {
+            return .linkExpired
+        }
         guard let error = error as? Auth.AuthError else {
             return .server("Something went wrong. Please try again.")
         }
@@ -140,6 +164,7 @@ public final class SupabaseAuthService: AuthService {
         case .emailExists, .userAlreadyExists: return .emailAlreadyRegistered
         case .emailNotConfirmed: return .emailNotConfirmed
         case .weakPassword: return .weakPassword(error.message)
+        case .otpExpired, .flowStateExpired, .flowStateNotFound, .badCodeVerifier: return .linkExpired
         case .overEmailSendRateLimit, .overRequestRateLimit: return .rateLimited
         default: return .server(error.message)
         }

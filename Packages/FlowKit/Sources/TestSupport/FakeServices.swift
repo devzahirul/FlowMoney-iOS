@@ -1,5 +1,5 @@
 public import Domain
-import Foundation
+public import Foundation
 
 /// Scriptable `AuthService`: set `nextResult`/`signUpResult` and inspect `calls`.
 public actor FakeAuthService: AuthService {
@@ -50,6 +50,20 @@ public actor FakeAuthService: AuthService {
     public func deleteAccount() async throws(AuthError) {
         calls.append("delete")
         session = nil
+    }
+
+    public var linkResult: Result<AuthLink, AuthError> = .failure(.linkExpired)
+    public func script(link: Result<AuthLink, AuthError>) {
+        linkResult = link
+    }
+
+    public func handleAuthLink(_ url: URL) async throws(AuthError) -> AuthLink {
+        calls.append("link:\(url.path())")
+        return try linkResult.get()
+    }
+
+    public func updatePassword(_: String) async throws(AuthError) {
+        calls.append("updatePassword")
     }
 
     public func sessionEnded() async -> AsyncStream<Void> {

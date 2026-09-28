@@ -16,6 +16,7 @@ public final class SupabaseLedgerService: RemoteLedgerService {
         let key = configuration.publishableKey
         client = PostgrestClient(configuration: PostgrestClient.Configuration(
             url: configuration.url.appending(path: "rest/v1"),
+            schema: SupabaseConfiguration.schema,
             headers: ["apikey": key],
             logger: nil,
             fetch: { request in

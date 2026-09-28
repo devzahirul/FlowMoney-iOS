@@ -108,7 +108,7 @@ public struct SignUpView: View {
                 .foregroundStyle(Theme.brand)
                 .padding(.top, 60)
             Text("Check your inbox").font(.title.bold())
-            Text("We sent a confirmation link to **\(email)**. Tap it, then come back and sign in.")
+            Text("We sent a confirmation link to **\(email)**. Open it on this iPhone and you'll be signed in automatically.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
             Button("Go to Sign In", action: onSignIn)

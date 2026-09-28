@@ -1,5 +1,9 @@
 -- FlowMoney schema.
 --
+-- Everything lives in its own Postgres schema `flowmoney`, so FlowMoney can share a Supabase project with other
+-- apps (it runs alongside NovaShop) without any name collisions. Add `flowmoney` to
+-- Project Settings → API → Exposed schemas so PostgREST serves it.
+--
 -- Design rules (see docs/adr/0002-offline-first-sync.md):
 --   * Primary keys are client-generated UUIDs → rows can be created offline and upserted idempotently.
 --   * `updated_at` is stamped by the server (trigger) → the pull cursor is never fooled by device clocks.
@@ -7,10 +11,13 @@
 --   * Money is `bigint` minor units (cents) → exact, no floating point.
 --   * Every table is protected by Row Level Security; `user_id` defaults to `auth.uid()` and can't be changed.
 
+create schema if not exists flowmoney;
+grant usage on schema flowmoney to anon, authenticated, service_role;
+
 -- ---------------------------------------------------------------------------------------------------------
 -- Shared trigger: server-owned timestamps and immutable ownership.
 -- ---------------------------------------------------------------------------------------------------------
-create or replace function public.stamp_row()
+create or replace function flowmoney.stamp_row()
 returns trigger
 language plpgsql
 set search_path = ''
@@ -30,7 +37,7 @@ $$;
 -- ---------------------------------------------------------------------------------------------------------
 -- profiles (1:1 with auth.users)
 -- ---------------------------------------------------------------------------------------------------------
-create table public.profiles (
+create table flowmoney.profiles (
   id            uuid primary key references auth.users (id) on delete cascade,
   display_name  text not null default '' check (char_length(display_name) <= 80),
   currency_code text not null default 'USD' check (currency_code ~ '^[A-Z]{3}$'),
@@ -42,7 +49,7 @@ create table public.profiles (
 -- ---------------------------------------------------------------------------------------------------------
 -- accounts
 -- ---------------------------------------------------------------------------------------------------------
-create table public.accounts (
+create table flowmoney.accounts (
   id              uuid primary key,
   user_id         uuid not null default auth.uid() references auth.users (id) on delete cascade,
   name            text not null check (char_length(name) between 1 and 60),
@@ -61,7 +68,7 @@ create table public.accounts (
 -- ---------------------------------------------------------------------------------------------------------
 -- transactions
 -- ---------------------------------------------------------------------------------------------------------
-create table public.transactions (
+create table flowmoney.transactions (
   id                uuid primary key,
   user_id           uuid not null default auth.uid() references auth.users (id) on delete cascade,
   account_id        uuid not null,
@@ -76,13 +83,13 @@ create table public.transactions (
   created_at        timestamptz not null default now(),
   updated_at        timestamptz not null default now(),
   deleted_at        timestamptz,
-  foreign key (account_id, user_id) references public.accounts (id, user_id) on delete cascade
+  foreign key (account_id, user_id) references flowmoney.accounts (id, user_id) on delete cascade
 );
 
 -- ---------------------------------------------------------------------------------------------------------
 -- budgets (monthly limit per category)
 -- ---------------------------------------------------------------------------------------------------------
-create table public.budgets (
+create table flowmoney.budgets (
   id           uuid primary key,
   user_id      uuid not null default auth.uid() references auth.users (id) on delete cascade,
   category_id  text not null check (char_length(category_id) between 1 and 40),
@@ -93,12 +100,12 @@ create table public.budgets (
 );
 
 -- One *live* budget per category; deleted ones don't count.
-create unique index budgets_one_live_per_category on public.budgets (user_id, category_id) where deleted_at is null;
+create unique index budgets_one_live_per_category on flowmoney.budgets (user_id, category_id) where deleted_at is null;
 
 -- ---------------------------------------------------------------------------------------------------------
 -- goals + contributions
 -- ---------------------------------------------------------------------------------------------------------
-create table public.goals (
+create table flowmoney.goals (
   id                   uuid primary key,
   user_id              uuid not null default auth.uid() references auth.users (id) on delete cascade,
   name                 text not null check (char_length(name) between 1 and 60),
@@ -113,7 +120,7 @@ create table public.goals (
 );
 
 -- Rows, not a `saved` counter: two devices adding money at once must both count.
-create table public.goal_contributions (
+create table flowmoney.goal_contributions (
   id             uuid primary key,
   user_id        uuid not null default auth.uid() references auth.users (id) on delete cascade,
   goal_id        uuid not null,
@@ -122,13 +129,13 @@ create table public.goal_contributions (
   created_at     timestamptz not null default now(),
   updated_at     timestamptz not null default now(),
   deleted_at     timestamptz,
-  foreign key (goal_id, user_id) references public.goals (id, user_id) on delete cascade
+  foreign key (goal_id, user_id) references flowmoney.goals (id, user_id) on delete cascade
 );
 
 -- ---------------------------------------------------------------------------------------------------------
 -- recurring rules (bills, subscriptions, paychecks)
 -- ---------------------------------------------------------------------------------------------------------
-create table public.recurring_rules (
+create table flowmoney.recurring_rules (
   id              uuid primary key,
   user_id         uuid not null default auth.uid() references auth.users (id) on delete cascade,
   account_id      uuid not null,
@@ -144,7 +151,7 @@ create table public.recurring_rules (
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now(),
   deleted_at      timestamptz,
-  foreign key (account_id, user_id) references public.accounts (id, user_id) on delete cascade
+  foreign key (account_id, user_id) references flowmoney.accounts (id, user_id) on delete cascade
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -156,31 +163,31 @@ declare
 begin
   foreach t in array array['profiles', 'accounts', 'transactions', 'budgets', 'goals', 'goal_contributions', 'recurring_rules']
   loop
-    execute format('create trigger stamp_row before insert or update on public.%I for each row execute function public.stamp_row()', t);
-    execute format('alter table public.%I enable row level security', t);
+    execute format('create trigger stamp_row before insert or update on flowmoney.%I for each row execute function flowmoney.stamp_row()', t);
+    execute format('alter table flowmoney.%I enable row level security', t);
     -- Supabase's default privileges grant ALL (incl. DELETE/TRUNCATE) to API roles: start from nothing.
-    execute format('revoke all on public.%I from anon, authenticated', t);
-    execute format('grant select, insert, update on public.%I to authenticated', t);
+    execute format('revoke all on flowmoney.%I from anon, authenticated', t);
+    execute format('grant select, insert, update on flowmoney.%I to authenticated', t);
   end loop;
 
   -- Sync pulls filter on (owner, updated_at): one index per table keeps them index-only range scans.
   foreach t in array array['accounts', 'transactions', 'budgets', 'goals', 'goal_contributions', 'recurring_rules']
   loop
-    execute format('create index %I on public.%I (user_id, updated_at)', t || '_sync_idx', t);
+    execute format('create index %I on flowmoney.%I (user_id, updated_at)', t || '_sync_idx', t);
     -- `(select auth.uid())` is evaluated once per statement instead of once per row.
-    execute format('create policy "owner can read" on public.%I for select to authenticated using (user_id = (select auth.uid()))', t);
-    execute format('create policy "owner can insert" on public.%I for insert to authenticated with check (user_id = (select auth.uid()))', t);
-    execute format('create policy "owner can update" on public.%I for update to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()))', t);
+    execute format('create policy "owner can read" on flowmoney.%I for select to authenticated using (user_id = (select auth.uid()))', t);
+    execute format('create policy "owner can insert" on flowmoney.%I for insert to authenticated with check (user_id = (select auth.uid()))', t);
+    execute format('create policy "owner can update" on flowmoney.%I for update to authenticated using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()))', t);
   end loop;
 end;
 $$;
 
-create index profiles_sync_idx on public.profiles (id, updated_at);
-create index transactions_by_date on public.transactions (user_id, occurred_at desc) where deleted_at is null;
+create index profiles_sync_idx on flowmoney.profiles (id, updated_at);
+create index transactions_by_date on flowmoney.transactions (user_id, occurred_at desc) where deleted_at is null;
 
-create policy "owner can read" on public.profiles for select to authenticated using (id = (select auth.uid()));
-create policy "owner can insert" on public.profiles for insert to authenticated with check (id = (select auth.uid()));
-create policy "owner can update" on public.profiles for update to authenticated
+create policy "owner can read" on flowmoney.profiles for select to authenticated using (id = (select auth.uid()));
+create policy "owner can insert" on flowmoney.profiles for insert to authenticated with check (id = (select auth.uid()));
+create policy "owner can update" on flowmoney.profiles for update to authenticated
   using (id = (select auth.uid())) with check (id = (select auth.uid()));
 
 -- No DELETE grants or policies at all: clients soft-delete. Hard deletes only happen through
@@ -189,28 +196,41 @@ create policy "owner can update" on public.profiles for update to authenticated
 -- ---------------------------------------------------------------------------------------------------------
 -- New users get a profile row automatically (name comes from sign-up metadata).
 -- ---------------------------------------------------------------------------------------------------------
-create or replace function public.handle_new_user()
+create or replace function flowmoney.handle_new_user()
 returns trigger
 language plpgsql
 security definer
 set search_path = ''
 as $$
 begin
-  insert into public.profiles (id, display_name)
-  values (new.id, left(coalesce(new.raw_user_meta_data ->> 'display_name', ''), 80))
-  on conflict (id) do nothing;
+  -- The auth user table is shared with other apps in this project (NovaShop): never let a FlowMoney
+  -- problem block their sign-ups. The app also creates the profile row itself if it's missing.
+  begin
+    insert into flowmoney.profiles (id, display_name)
+    values (new.id, left(coalesce(new.raw_user_meta_data ->> 'display_name', ''), 80))
+    on conflict (id) do nothing;
+  exception when others then
+    raise warning 'flowmoney.handle_new_user skipped: %', sqlerrm;
+  end;
   return new;
 end;
 $$;
 
-create trigger on_auth_user_created
+-- Existing users of the shared project (e.g. NovaShop accounts) get a FlowMoney profile too. Read-only on auth.users.
+insert into flowmoney.profiles (id, display_name)
+select id, left(coalesce(raw_user_meta_data ->> 'display_name', ''), 80) from auth.users
+on conflict (id) do nothing;
+
+create trigger on_auth_user_created_flowmoney
   after insert on auth.users
-  for each row execute function public.handle_new_user();
+  for each row execute function flowmoney.handle_new_user();
 
 -- ---------------------------------------------------------------------------------------------------------
--- Account deletion (App Store guideline 5.1.1(v)): removes the auth user; every table cascades.
+-- Account deletion (App Store guideline 5.1.1(v)): removes every FlowMoney row for the caller.
+-- The login itself (auth.users) is shared with other apps in this project, so it is NOT deleted here —
+-- deleting it would cascade into their data. A standalone FlowMoney project could delete the auth user instead.
 -- ---------------------------------------------------------------------------------------------------------
-create or replace function public.delete_my_account()
+create or replace function flowmoney.delete_my_account()
 returns void
 language plpgsql
 security definer
@@ -222,9 +242,15 @@ begin
   if uid is null then
     raise exception 'not authenticated' using errcode = '28000';
   end if;
-  delete from auth.users where id = uid;
+  delete from flowmoney.goal_contributions where user_id = uid;
+  delete from flowmoney.transactions where user_id = uid;
+  delete from flowmoney.recurring_rules where user_id = uid;
+  delete from flowmoney.budgets where user_id = uid;
+  delete from flowmoney.goals where user_id = uid;
+  delete from flowmoney.accounts where user_id = uid;
+  delete from flowmoney.profiles where id = uid;
 end;
 $$;
 
-revoke all on function public.delete_my_account() from public, anon;
-grant execute on function public.delete_my_account() to authenticated;
+revoke all on function flowmoney.delete_my_account() from public, anon;
+grant execute on function flowmoney.delete_my_account() to authenticated;

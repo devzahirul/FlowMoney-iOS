@@ -90,6 +90,14 @@ struct UnconfiguredAuthService: AuthService {
         throw .notConfigured
     }
 
+    func handleAuthLink(_: URL) async throws(AuthError) -> AuthLink {
+        throw .notConfigured
+    }
+
+    func updatePassword(_: String) async throws(AuthError) {
+        throw .notConfigured
+    }
+
     func sessionEnded() async -> AsyncStream<Void> {
         AsyncStream { $0.finish() }
     }

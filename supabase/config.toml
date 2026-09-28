@@ -3,3 +3,9 @@ project_id = "flowmoney"
 
 [db]
 major_version = 15
+
+[api]
+schemas = ["public", "graphql_public", "flowmoney"]
+
+[auth]
+additional_redirect_urls = ["flowmoney://auth/confirm", "flowmoney://auth/reset"]

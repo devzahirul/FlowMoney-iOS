@@ -6,6 +6,8 @@ public struct SupabaseConfiguration: Sendable, Equatable {
     public let url: URL
     /// The *publishable* (anon) key — designed to ship in apps; Row Level Security protects the data.
     public let publishableKey: String
+    /// FlowMoney's tables live in their own Postgres schema so the project can be shared with other apps.
+    public static let schema = "flowmoney"
 
     public init(url: URL, publishableKey: String) {
         self.url = url

@@ -94,7 +94,7 @@ public struct SettingsView: View {
             }
             Button("Cancel", role: .cancel) { deleteConfirmation = "" }
         } message: {
-            Text("This permanently deletes your account and all your data from our servers. This can't be undone.")
+            Text("This permanently deletes all your FlowMoney data from our servers and signs you out. This can't be undone.")
         }
         .overlay {
             if model.isWorking {

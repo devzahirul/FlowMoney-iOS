@@ -109,6 +109,7 @@ Writes hit local state and disk instantly; an **outbox** records what changed; a
 
 `supabase/migrations` defines the schema; [`supabase/README.md`](supabase/README.md) sets up a free project in ~5 minutes.
 
+- Own **`flowmoney` Postgres schema** — runs side by side with another app in one project without collisions.
 - **Row Level Security** on every table, `user_id` defaults to `auth.uid()` and can't be changed by the client.
 - **Composite foreign keys** `(account_id, user_id)` — a user can't attach a row to someone else's account even by guessing its ID.
 - Money is `bigint` minor units (exact), with `CHECK` constraints mirroring client validation.

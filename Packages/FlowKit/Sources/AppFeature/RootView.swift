@@ -57,8 +57,11 @@ public struct RootView: View {
             }
         }
         .onChange(of: model.preferences.remindersEnabled) { Task { await model.remindersPreferenceChanged() } }
-        .onOpenURL { url in model.router.open(url) }
-        .alert("Signed out", isPresented: Binding(get: { model.sessionMessage != nil }, set: {
+        .onOpenURL { url in Task { await model.handle(url: url) } }
+        .sheet(isPresented: Binding(get: { model.passwordRecoveryPending }, set: { model.passwordRecoveryPending = $0 })) {
+            SetNewPasswordView(model: SetNewPasswordModel(auth: model.auth))
+        }
+        .alert("Account", isPresented: Binding(get: { model.sessionMessage != nil }, set: {
             if !$0 {
                 model.sessionMessage = nil
             }
