@@ -1,0 +1,5 @@
+# Local Supabase (used by `supabase db start` / `supabase test db`, locally and in CI).
+project_id = "flowmoney"
+
+[db]
+major_version = 15

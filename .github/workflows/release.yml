@@ -1,0 +1,56 @@
+name: Release to TestFlight
+
+# Push a tag like v1.0.0 to ship. Requires repository secrets:
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (App Store Connect API key, "App Manager" role)
+#   SUPABASE_HOST, SUPABASE_PUBLISHABLE_KEY (publishable key only — never the service key)
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  testflight:
+    runs-on: macos-15
+    timeout-minutes: 60
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: brew install xcodegen xcbeautify
+      - name: Configure backend and version
+        run: |
+          printf 'SUPABASE_HOST = %s\nSUPABASE_PUBLISHABLE_KEY = %s\n' \
+            "${{ secrets.SUPABASE_HOST }}" "${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" > Config/Supabase.local.xcconfig
+          VERSION="${GITHUB_REF_NAME#v}"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || VERSION=1.0.0
+          sed -i '' "s/MARKETING_VERSION: \".*\"/MARKETING_VERSION: \"$VERSION\"/" project.yml
+          sed -i '' "s/CURRENT_PROJECT_VERSION: \".*\"/CURRENT_PROJECT_VERSION: \"${{ github.run_number }}\"/" project.yml
+          xcodegen generate
+      - name: App Store Connect key
+        run: |
+          mkdir -p ~/private_keys
+          echo "${{ secrets.ASC_KEY_P8 }}" > ~/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8
+      - name: Archive (cloud-managed signing)
+        run: |
+          set -o pipefail
+          xcodebuild archive -project FlowMoney.xcodeproj -scheme FlowMoney -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath build/FlowMoney.xcarchive \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8 \
+            -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} | xcbeautify
+      - name: Export and upload to App Store Connect
+        run: |
+          xcodebuild -exportArchive -archivePath build/FlowMoney.xcarchive \
+            -exportOptionsPlist scripts/ExportOptions.plist -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${{ secrets.ASC_KEY_ID }}.p8 \
+            -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }}
+      - name: Keep dSYMs for crash symbolication
+        uses: actions/upload-artifact@v4
+        with:
+          name: dSYMs-${{ github.ref_name }}
+          path: build/FlowMoney.xcarchive/dSYMs

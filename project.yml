@@ -1,0 +1,135 @@
+# XcodeGen spec — the .xcodeproj is generated, never hand-edited, so it never causes merge conflicts.
+# Regenerate with `make project`.
+name: FlowMoney
+options:
+  bundleIdPrefix: com.lynkto
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: 6VC84T9283
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    DEAD_CODE_STRIPPING: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+  configs:
+    Debug:
+      SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+    Release:
+      SWIFT_COMPILATION_MODE: wholemodule
+      SWIFT_OPTIMIZATION_LEVEL: -O
+      DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+      VALIDATE_PRODUCT: YES
+
+packages:
+  FlowKit:
+    path: Packages/FlowKit
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: 2.55.0
+
+targets:
+  FlowMoney:
+    type: application
+    platform: iOS
+    sources:
+      - App/Sources
+      - App/Resources
+    dependencies:
+      - package: FlowKit
+        product: AppFeature
+    configFiles:
+      Debug: Config/Base.xcconfig
+      Release: Config/Base.xcconfig
+    info:
+      path: App/Info.plist
+      properties:
+        FlowMoneySupabaseHost: $(SUPABASE_HOST)
+        FlowMoneySupabaseKey: $(SUPABASE_PUBLISHABLE_KEY)
+        BGTaskSchedulerPermittedIdentifiers: [com.lynkto.flowmoney.refresh]
+        UIBackgroundModes: [fetch]
+        NSFaceIDUsageDescription: FlowMoney uses Face ID to unlock the app and keep your finances private.
+        CFBundleDisplayName: FlowMoney
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIRequiredDeviceCapabilities:
+          - arm64
+        CFBundleURLTypes:
+          - CFBundleURLName: com.lynkto.flowmoney
+            CFBundleURLSchemes: [flowmoney]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lynkto.flowmoney
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1"
+        SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+
+  # Unit tests hosted in the app, so they run on a physical iPhone as well as a simulator.
+  # They compile the same sources as the package's test targets (which CI runs on simulators).
+  FlowMoneyTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - Packages/FlowKit/Tests
+    dependencies:
+      - target: FlowMoney
+      - package: FlowKit
+        product: FlowKitTesting
+      - package: Supabase
+        product: PostgREST
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lynkto.flowmoney.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney
+        BUNDLE_LOADER: $(TEST_HOST)
+        SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY: YES
+
+  FlowMoneyUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: FlowMoney
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lynkto.flowmoney.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: FlowMoney
+
+schemes:
+  FlowMoney:
+    build:
+      targets:
+        FlowMoney: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      coverageTargets:
+        - FlowMoney
+      targets:
+        - FlowMoneyTests
+        - FlowMoneyUITests
+    profile:
+      config: Release
+    archive:
+      config: Release

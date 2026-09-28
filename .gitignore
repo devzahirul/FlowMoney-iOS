@@ -1,0 +1,16 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.xcresult
+# SwiftPM
+Packages/FlowKit/.build/
+Packages/FlowKit/.swiftpm/
+# macOS
+.DS_Store
+# Local Supabase credentials — never commit
+Config/Supabase.local.xcconfig
+supabase/.temp/
+supabase/.branches/
+Config/Local.xcconfig

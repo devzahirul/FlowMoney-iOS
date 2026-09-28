@@ -1,0 +1,723 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0EE2DB6DFE04DACB9072BAA2 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BE621CAF2C3F98A984FAF /* MoneyTests.swift */; };
+		10F483F072F63E01E7035C3B /* FlowKitTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 43BE0BAD98575D6B35D5E394 /* FlowKitTesting */; };
+		2C1BF3F3270B0DC473420F98 /* InsightsAndAlertsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62934E779CA3A0574B9723E5 /* InsightsAndAlertsTests.swift */; };
+		49E36FC17D3AA08DB8F959F6 /* BudgetAndCashFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D40FB5EB9741C45A2585827 /* BudgetAndCashFlowTests.swift */; };
+		4FDBDE9D2E382EB61DB523FD /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 0C7C81B7BBCC5CF518CAE679 /* AppFeature */; };
+		7AC7353DEF3DE8BA570EE493 /* LocalLedgerRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD262D890497532C4C994B2 /* LocalLedgerRepositoryTests.swift */; };
+		928F339474F2BFB4AB205D62 /* FlowMoneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF0898410EDD8E2EC6DDDEA /* FlowMoneyUITests.swift */; };
+		9682F81EED4E1A71D74A7824 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555B5A65C4DEBCAECF5BF5E /* ScreenshotTests.swift */; };
+		9F5955D6CE874BDFF458A3F8 /* QueryValidationExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE8850ABA2ADBDB42E4F048 /* QueryValidationExportTests.swift */; };
+		A7C6760789E9F53F29F00595 /* FeatureViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3243407ED93DB2A2150BC0 /* FeatureViewModelTests.swift */; };
+		AB3FAF34407C46F858663716 /* GoalsNetWorthRecurringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F356975ADE3E97D450EC9A0 /* GoalsNetWorthRecurringTests.swift */; };
+		C650013572A10C60FC80C3A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA11D83CEB8F4577E6E16A /* Assets.xcassets */; };
+		C8714C2BBDF0EFE2D26A027D /* FlowMoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50ABEC6835A4189607DC4DA /* FlowMoneyApp.swift */; };
+		CD353589A4B357491FB9CCED /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6D35D226B9F267B25F9F5B13 /* PrivacyInfo.xcprivacy */; };
+		DB0F391640DE22ACB4C62AAA /* RowMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4835706F6CF76B8566B413FD /* RowMappingTests.swift */; };
+		E196C7836EBF4FDCC081F50C /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 49E13CEC8A2D4CB8B63941A4 /* PostgREST */; };
+		EA2FC59F17586472FE149792 /* AppModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B105F206CFA299724442374E /* AppModelTests.swift */; };
+		F5EF56EF05C64BCA91D4A191 /* LedgerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B6A30D3DF9A4E4404D8AD8 /* LedgerSnapshotTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		667D32B6BA4193701B247C95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5ABA4998FC12C1B09D133474 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 478677F0B51B8C7563B23063;
+			remoteInfo = FlowMoney;
+		};
+		75FF955A4880C8DB83871858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5ABA4998FC12C1B09D133474 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 478677F0B51B8C7563B23063;
+			remoteInfo = FlowMoney;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0D40FB5EB9741C45A2585827 /* BudgetAndCashFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetAndCashFlowTests.swift; sourceTree = "<group>"; };
+		2FE8850ABA2ADBDB42E4F048 /* QueryValidationExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryValidationExportTests.swift; sourceTree = "<group>"; };
+		32F9E960C844F9E618A5678A /* FlowMoneyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FlowMoneyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B3243407ED93DB2A2150BC0 /* FeatureViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModelTests.swift; sourceTree = "<group>"; };
+		3C8D8B8F820A6526C523877D /* FlowKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = FlowKit; path = Packages/FlowKit; sourceTree = SOURCE_ROOT; };
+		3D74C885084BD0A498CF2ADC /* FlowMoneyUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FlowMoneyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4835706F6CF76B8566B413FD /* RowMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowMappingTests.swift; sourceTree = "<group>"; };
+		487BE621CAF2C3F98A984FAF /* MoneyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyTests.swift; sourceTree = "<group>"; };
+		4BD262D890497532C4C994B2 /* LocalLedgerRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalLedgerRepositoryTests.swift; sourceTree = "<group>"; };
+		5555B5A65C4DEBCAECF5BF5E /* ScreenshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
+		5FBA11D83CEB8F4577E6E16A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		62934E779CA3A0574B9723E5 /* InsightsAndAlertsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsAndAlertsTests.swift; sourceTree = "<group>"; };
+		6D35D226B9F267B25F9F5B13 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		8F356975ADE3E97D450EC9A0 /* GoalsNetWorthRecurringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsNetWorthRecurringTests.swift; sourceTree = "<group>"; };
+		A4B6A30D3DF9A4E4404D8AD8 /* LedgerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerSnapshotTests.swift; sourceTree = "<group>"; };
+		B105F206CFA299724442374E /* AppModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelTests.swift; sourceTree = "<group>"; };
+		C5BFD8D42AA6C5CA0EAB4FCC /* FlowMoney.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FlowMoney.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCCF5519A84966AA60B85E34 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		DEF0898410EDD8E2EC6DDDEA /* FlowMoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMoneyUITests.swift; sourceTree = "<group>"; };
+		F50ABEC6835A4189607DC4DA /* FlowMoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMoneyApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		67B3B7CA9827E6B41C59B9E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10F483F072F63E01E7035C3B /* FlowKitTesting in Frameworks */,
+				E196C7836EBF4FDCC081F50C /* PostgREST in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EB6996C14C366C88313B64E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FDBDE9D2E382EB61DB523FD /* AppFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03DC5742677FDF074E7B0378 = {
+			isa = PBXGroup;
+			children = (
+				BEF0F3C98BD8D90B0475F9EE /* App */,
+				E675D76C947EDCA2B6B8C4E7 /* Config */,
+				527720600F0BDFF557F92313 /* Packages */,
+				24950EB374AD141C40085443 /* UITests */,
+				7D8D21F996908EBEEFAFFFBF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		130E40D65B2D833106B16D1F /* SupabaseBackendTests */ = {
+			isa = PBXGroup;
+			children = (
+				4835706F6CF76B8566B413FD /* RowMappingTests.swift */,
+			);
+			path = SupabaseBackendTests;
+			sourceTree = "<group>";
+		};
+		17F202F95A2FEDED7CFE46A4 /* FlowCoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				487BE621CAF2C3F98A984FAF /* MoneyTests.swift */,
+			);
+			path = FlowCoreTests;
+			sourceTree = "<group>";
+		};
+		1A88CD950F4618EB8FFEC0FE /* FeatureTests */ = {
+			isa = PBXGroup;
+			children = (
+				B105F206CFA299724442374E /* AppModelTests.swift */,
+				3B3243407ED93DB2A2150BC0 /* FeatureViewModelTests.swift */,
+			);
+			path = FeatureTests;
+			sourceTree = "<group>";
+		};
+		24950EB374AD141C40085443 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				DEF0898410EDD8E2EC6DDDEA /* FlowMoneyUITests.swift */,
+				5555B5A65C4DEBCAECF5BF5E /* ScreenshotTests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		527720600F0BDFF557F92313 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				8EBD3D1085F672B3244724D7 /* FlowKit */,
+				3C8D8B8F820A6526C523877D /* FlowKit */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		6374495F6402BF10A7ADDEF9 /* LedgerDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				4BD262D890497532C4C994B2 /* LocalLedgerRepositoryTests.swift */,
+			);
+			path = LedgerDataTests;
+			sourceTree = "<group>";
+		};
+		7D8D21F996908EBEEFAFFFBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5BFD8D42AA6C5CA0EAB4FCC /* FlowMoney.app */,
+				32F9E960C844F9E618A5678A /* FlowMoneyTests.xctest */,
+				3D74C885084BD0A498CF2ADC /* FlowMoneyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EBD3D1085F672B3244724D7 /* FlowKit */ = {
+			isa = PBXGroup;
+			children = (
+				DE3D213353908F2CC2ADE5F2 /* Tests */,
+			);
+			path = FlowKit;
+			sourceTree = "<group>";
+		};
+		9268E19F13463D71CCD70823 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F50ABEC6835A4189607DC4DA /* FlowMoneyApp.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		9AB7C7F27C9B6039E9024E1B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA11D83CEB8F4577E6E16A /* Assets.xcassets */,
+				6D35D226B9F267B25F9F5B13 /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BEF0F3C98BD8D90B0475F9EE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9AB7C7F27C9B6039E9024E1B /* Resources */,
+				9268E19F13463D71CCD70823 /* Sources */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DDD1DC5BDCC243CF06897FEE /* DomainTests */ = {
+			isa = PBXGroup;
+			children = (
+				0D40FB5EB9741C45A2585827 /* BudgetAndCashFlowTests.swift */,
+				8F356975ADE3E97D450EC9A0 /* GoalsNetWorthRecurringTests.swift */,
+				62934E779CA3A0574B9723E5 /* InsightsAndAlertsTests.swift */,
+				A4B6A30D3DF9A4E4404D8AD8 /* LedgerSnapshotTests.swift */,
+				2FE8850ABA2ADBDB42E4F048 /* QueryValidationExportTests.swift */,
+			);
+			path = DomainTests;
+			sourceTree = "<group>";
+		};
+		DE3D213353908F2CC2ADE5F2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				DDD1DC5BDCC243CF06897FEE /* DomainTests */,
+				1A88CD950F4618EB8FFEC0FE /* FeatureTests */,
+				17F202F95A2FEDED7CFE46A4 /* FlowCoreTests */,
+				6374495F6402BF10A7ADDEF9 /* LedgerDataTests */,
+				130E40D65B2D833106B16D1F /* SupabaseBackendTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		E675D76C947EDCA2B6B8C4E7 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				DCCF5519A84966AA60B85E34 /* Base.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		478677F0B51B8C7563B23063 /* FlowMoney */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88B8886C9752DD25F23488BB /* Build configuration list for PBXNativeTarget "FlowMoney" */;
+			buildPhases = (
+				0391886A676662D99D6DED18 /* Sources */,
+				CFD0C403B47B464C16CC9CA2 /* Resources */,
+				6EB6996C14C366C88313B64E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlowMoney;
+			packageProductDependencies = (
+				0C7C81B7BBCC5CF518CAE679 /* AppFeature */,
+			);
+			productName = FlowMoney;
+			productReference = C5BFD8D42AA6C5CA0EAB4FCC /* FlowMoney.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6C920159F2CC23FA2BB2C793 /* FlowMoneyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 361161C577B551C96C68E55E /* Build configuration list for PBXNativeTarget "FlowMoneyTests" */;
+			buildPhases = (
+				91B508E8ABE3D27C5D7DB1E8 /* Sources */,
+				67B3B7CA9827E6B41C59B9E6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				895E70EBF529ACF1B001A786 /* PBXTargetDependency */,
+			);
+			name = FlowMoneyTests;
+			packageProductDependencies = (
+				43BE0BAD98575D6B35D5E394 /* FlowKitTesting */,
+				49E13CEC8A2D4CB8B63941A4 /* PostgREST */,
+			);
+			productName = FlowMoneyTests;
+			productReference = 32F9E960C844F9E618A5678A /* FlowMoneyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8A1B5D103E60BD5258679A1A /* FlowMoneyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0D8DEF7C508A1D9875A8A66A /* Build configuration list for PBXNativeTarget "FlowMoneyUITests" */;
+			buildPhases = (
+				3372F2EE117285F4551709BE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82C0058B4BFA0F9D285ECFE1 /* PBXTargetDependency */,
+			);
+			name = FlowMoneyUITests;
+			packageProductDependencies = (
+			);
+			productName = FlowMoneyUITests;
+			productReference = 3D74C885084BD0A498CF2ADC /* FlowMoneyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5ABA4998FC12C1B09D133474 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					478677F0B51B8C7563B23063 = {
+						DevelopmentTeam = 6VC84T9283;
+						ProvisioningStyle = Automatic;
+					};
+					6C920159F2CC23FA2BB2C793 = {
+						DevelopmentTeam = 6VC84T9283;
+						ProvisioningStyle = Automatic;
+					};
+					8A1B5D103E60BD5258679A1A = {
+						DevelopmentTeam = 6VC84T9283;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 478677F0B51B8C7563B23063;
+					};
+				};
+			};
+			buildConfigurationList = 086AC91FFD129A686AB370E6 /* Build configuration list for PBXProject "FlowMoney" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 03DC5742677FDF074E7B0378;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0C6E4B4179DAEEDEFC2629A7 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				695DF8CD5FFDA90F6BBD615C /* XCLocalSwiftPackageReference "Packages/FlowKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				478677F0B51B8C7563B23063 /* FlowMoney */,
+				6C920159F2CC23FA2BB2C793 /* FlowMoneyTests */,
+				8A1B5D103E60BD5258679A1A /* FlowMoneyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFD0C403B47B464C16CC9CA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C650013572A10C60FC80C3A4 /* Assets.xcassets in Resources */,
+				CD353589A4B357491FB9CCED /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0391886A676662D99D6DED18 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8714C2BBDF0EFE2D26A027D /* FlowMoneyApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3372F2EE117285F4551709BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				928F339474F2BFB4AB205D62 /* FlowMoneyUITests.swift in Sources */,
+				9682F81EED4E1A71D74A7824 /* ScreenshotTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91B508E8ABE3D27C5D7DB1E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA2FC59F17586472FE149792 /* AppModelTests.swift in Sources */,
+				49E36FC17D3AA08DB8F959F6 /* BudgetAndCashFlowTests.swift in Sources */,
+				A7C6760789E9F53F29F00595 /* FeatureViewModelTests.swift in Sources */,
+				AB3FAF34407C46F858663716 /* GoalsNetWorthRecurringTests.swift in Sources */,
+				2C1BF3F3270B0DC473420F98 /* InsightsAndAlertsTests.swift in Sources */,
+				F5EF56EF05C64BCA91D4A191 /* LedgerSnapshotTests.swift in Sources */,
+				7AC7353DEF3DE8BA570EE493 /* LocalLedgerRepositoryTests.swift in Sources */,
+				0EE2DB6DFE04DACB9072BAA2 /* MoneyTests.swift in Sources */,
+				9F5955D6CE874BDFF458A3F8 /* QueryValidationExportTests.swift in Sources */,
+				DB0F391640DE22ACB4C62AAA /* RowMappingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82C0058B4BFA0F9D285ECFE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 478677F0B51B8C7563B23063 /* FlowMoney */;
+			targetProxy = 75FF955A4880C8DB83871858 /* PBXContainerItemProxy */;
+		};
+		895E70EBF529ACF1B001A786 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 478677F0B51B8C7563B23063 /* FlowMoney */;
+			targetProxy = 667D32B6BA4193701B247C95 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0C5648A961DFB50EDEE2AD02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.tests;
+				SDKROOT = iphoneos;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney";
+			};
+			name = Release;
+		};
+		1C8F9A78C1A0CA684FFFD14F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.tests;
+				SDKROOT = iphoneos;
+				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney";
+			};
+			name = Debug;
+		};
+		2B8E6DD3351C1ED750AB6933 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 6VC84T9283;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		822FDD71491937FCEB27B1D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlowMoney;
+			};
+			name = Release;
+		};
+		925F66B489B9562FE70ABB64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FlowMoney;
+			};
+			name = Debug;
+		};
+		9BC3017EDD8469D2692D32EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCCF5519A84966AA60B85E34 /* Base.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney;
+				SDKROOT = iphoneos;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A02BFB3C118489EA30DBE4B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCCF5519A84966AA60B85E34 /* Base.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney;
+				SDKROOT = iphoneos;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		ABC7D023F4C60559E14E172C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 6VC84T9283;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		086AC91FFD129A686AB370E6 /* Build configuration list for PBXProject "FlowMoney" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABC7D023F4C60559E14E172C /* Debug */,
+				2B8E6DD3351C1ED750AB6933 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		0D8DEF7C508A1D9875A8A66A /* Build configuration list for PBXNativeTarget "FlowMoneyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				925F66B489B9562FE70ABB64 /* Debug */,
+				822FDD71491937FCEB27B1D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		361161C577B551C96C68E55E /* Build configuration list for PBXNativeTarget "FlowMoneyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C8F9A78C1A0CA684FFFD14F /* Debug */,
+				0C5648A961DFB50EDEE2AD02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		88B8886C9752DD25F23488BB /* Build configuration list for PBXNativeTarget "FlowMoney" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BC3017EDD8469D2692D32EC /* Debug */,
+				A02BFB3C118489EA30DBE4B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		695DF8CD5FFDA90F6BBD615C /* XCLocalSwiftPackageReference "Packages/FlowKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/FlowKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0C6E4B4179DAEEDEFC2629A7 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.55.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0C7C81B7BBCC5CF518CAE679 /* AppFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFeature;
+		};
+		43BE0BAD98575D6B35D5E394 /* FlowKitTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlowKitTesting;
+		};
+		49E13CEC8A2D4CB8B63941A4 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C6E4B4179DAEEDEFC2629A7 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5ABA4998FC12C1B09D133474 /* Project object */;
+}

@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install swiftlint swiftformat
+      - run: swiftlint lint --strict --reporter github-actions-logging
+      - run: swiftformat --lint .
+
+  test:
+    name: Unit + UI tests
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: brew install xcodegen xcbeautify
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: DerivedData/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('Packages/FlowKit/Package.resolved', 'project.yml') }}
+      - name: Generate project
+        run: xcodegen generate
+      # CI has no physical device, so the same app-hosted tests run on a hosted simulator.
+      - name: Test
+        run: |
+          set -o pipefail
+          xcodebuild test -project FlowMoney.xcodeproj -scheme FlowMoney \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            -derivedDataPath DerivedData -resultBundlePath build/tests.xcresult \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify --renderer github-actions
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: build/tests.xcresult
+
+  release-build:
+    name: Release build (warnings as errors)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - run: brew install xcodegen xcbeautify
+      - run: xcodegen generate
+      - run: |
+          set -o pipefail
+          xcodebuild build -project FlowMoney.xcodeproj -scheme FlowMoney -configuration Release \
+            -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO | xcbeautify --renderer github-actions
+
+  database:
+    name: Database (migrations + RLS tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Start Postgres and apply migrations
+        run: supabase db start
+      - name: pgTAP row-level-security tests
+        run: supabase test db
