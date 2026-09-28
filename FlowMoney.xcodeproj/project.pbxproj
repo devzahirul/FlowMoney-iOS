@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0506686BC325577E7323D106 /* TestHostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8301E13E62E7AF9B86570AF /* TestHostApp.swift */; };
 		0EE2DB6DFE04DACB9072BAA2 /* MoneyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487BE621CAF2C3F98A984FAF /* MoneyTests.swift */; };
 		10F483F072F63E01E7035C3B /* FlowKitTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 43BE0BAD98575D6B35D5E394 /* FlowKitTesting */; };
 		2C1BF3F3270B0DC473420F98 /* InsightsAndAlertsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62934E779CA3A0574B9723E5 /* InsightsAndAlertsTests.swift */; };
@@ -28,12 +29,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		667D32B6BA4193701B247C95 /* PBXContainerItemProxy */ = {
+		2F586F971FD4243F9FA1957D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5ABA4998FC12C1B09D133474 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 478677F0B51B8C7563B23063;
-			remoteInfo = FlowMoney;
+			remoteGlobalIDString = A6FE0CB80C6842E7BE3693F3;
+			remoteInfo = FlowKitTestHost;
 		};
 		75FF955A4880C8DB83871858 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		0D40FB5EB9741C45A2585827 /* BudgetAndCashFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetAndCashFlowTests.swift; sourceTree = "<group>"; };
+		2E6739AB72B62FB87B35485E /* FlowKitTestHost.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FlowKitTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FE8850ABA2ADBDB42E4F048 /* QueryValidationExportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryValidationExportTests.swift; sourceTree = "<group>"; };
 		32F9E960C844F9E618A5678A /* FlowMoneyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = FlowMoneyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3243407ED93DB2A2150BC0 /* FeatureViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModelTests.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		A4B6A30D3DF9A4E4404D8AD8 /* LedgerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerSnapshotTests.swift; sourceTree = "<group>"; };
 		B105F206CFA299724442374E /* AppModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelTests.swift; sourceTree = "<group>"; };
 		C5BFD8D42AA6C5CA0EAB4FCC /* FlowMoney.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FlowMoney.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8301E13E62E7AF9B86570AF /* TestHostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHostApp.swift; sourceTree = "<group>"; };
 		DCCF5519A84966AA60B85E34 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		DEF0898410EDD8E2EC6DDDEA /* FlowMoneyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMoneyUITests.swift; sourceTree = "<group>"; };
 		F50ABEC6835A4189607DC4DA /* FlowMoneyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowMoneyApp.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 				BEF0F3C98BD8D90B0475F9EE /* App */,
 				E675D76C947EDCA2B6B8C4E7 /* Config */,
 				527720600F0BDFF557F92313 /* Packages */,
+				B4E69F561E1D7CDE39A3DBE3 /* TestHost */,
 				24950EB374AD141C40085443 /* UITests */,
 				7D8D21F996908EBEEFAFFFBF /* Products */,
 			);
@@ -153,6 +157,7 @@
 		7D8D21F996908EBEEFAFFFBF /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				2E6739AB72B62FB87B35485E /* FlowKitTestHost.app */,
 				C5BFD8D42AA6C5CA0EAB4FCC /* FlowMoney.app */,
 				32F9E960C844F9E618A5678A /* FlowMoneyTests.xctest */,
 				3D74C885084BD0A498CF2ADC /* FlowMoneyUITests.xctest */,
@@ -183,6 +188,14 @@
 				6D35D226B9F267B25F9F5B13 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		B4E69F561E1D7CDE39A3DBE3 /* TestHost */ = {
+			isa = PBXGroup;
+			children = (
+				D8301E13E62E7AF9B86570AF /* TestHostApp.swift */,
+			);
+			path = TestHost;
 			sourceTree = "<group>";
 		};
 		BEF0F3C98BD8D90B0475F9EE /* App */ = {
@@ -259,7 +272,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				895E70EBF529ACF1B001A786 /* PBXTargetDependency */,
+				8BDF1702FF0E4AD469E9EB23 /* PBXTargetDependency */,
 			);
 			name = FlowMoneyTests;
 			packageProductDependencies = (
@@ -288,6 +301,23 @@
 			productReference = 3D74C885084BD0A498CF2ADC /* FlowMoneyUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		A6FE0CB80C6842E7BE3693F3 /* FlowKitTestHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3CEFF3AE6416FF50A91534A /* Build configuration list for PBXNativeTarget "FlowKitTestHost" */;
+			buildPhases = (
+				8CFDCD4E9350179C0BA758E9 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlowKitTestHost;
+			packageProductDependencies = (
+			);
+			productName = FlowKitTestHost;
+			productReference = 2E6739AB72B62FB87B35485E /* FlowKitTestHost.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -310,6 +340,10 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 478677F0B51B8C7563B23063;
 					};
+					A6FE0CB80C6842E7BE3693F3 = {
+						DevelopmentTeam = 6VC84T9283;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 086AC91FFD129A686AB370E6 /* Build configuration list for PBXProject "FlowMoney" */;
@@ -330,6 +364,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				A6FE0CB80C6842E7BE3693F3 /* FlowKitTestHost */,
 				478677F0B51B8C7563B23063 /* FlowMoney */,
 				6C920159F2CC23FA2BB2C793 /* FlowMoneyTests */,
 				8A1B5D103E60BD5258679A1A /* FlowMoneyUITests */,
@@ -367,6 +402,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8CFDCD4E9350179C0BA758E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0506686BC325577E7323D106 /* TestHostApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		91B508E8ABE3D27C5D7DB1E8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,10 +435,10 @@
 			target = 478677F0B51B8C7563B23063 /* FlowMoney */;
 			targetProxy = 75FF955A4880C8DB83871858 /* PBXContainerItemProxy */;
 		};
-		895E70EBF529ACF1B001A786 /* PBXTargetDependency */ = {
+		8BDF1702FF0E4AD469E9EB23 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 478677F0B51B8C7563B23063 /* FlowMoney */;
-			targetProxy = 667D32B6BA4193701B247C95 /* PBXContainerItemProxy */;
+			target = A6FE0CB80C6842E7BE3693F3 /* FlowKitTestHost */;
+			targetProxy = 2F586F971FD4243F9FA1957D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -414,7 +457,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowKitTestHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowKitTestHost";
 			};
 			name = Release;
 		};
@@ -432,7 +475,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FlowKitTestHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowKitTestHost";
 			};
 			name = Debug;
 		};
@@ -644,6 +687,40 @@
 			};
 			name = Debug;
 		};
+		F49DE223C12E0754F60C6893 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.testhost;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FED7ABB665E318C92E92CD6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynkto.flowmoney.testhost;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -679,6 +756,15 @@
 			buildConfigurations = (
 				9BC3017EDD8469D2692D32EC /* Debug */,
 				A02BFB3C118489EA30DBE4B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E3CEFF3AE6416FF50A91534A /* Build configuration list for PBXNativeTarget "FlowKitTestHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FED7ABB665E318C92E92CD6A /* Debug */,
+				F49DE223C12E0754F60C6893 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

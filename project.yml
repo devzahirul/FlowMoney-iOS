@@ -83,13 +83,26 @@ targets:
 
   # Unit tests hosted in the app, so they run on a physical iPhone as well as a simulator.
   # They compile the same sources as the package's test targets (which CI runs on simulators).
+  # Minimal host for running the package unit tests on a real iPhone. FlowMoney must NOT host them: linking the same
+  # package modules into the app and its hosted test bundle makes Xcode turn them into dynamic frameworks.
+  FlowKitTestHost:
+    type: application
+    platform: iOS
+    sources: [TestHost]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lynkto.flowmoney.testhost
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        TARGETED_DEVICE_FAMILY: "1"
+
   FlowMoneyTests:
     type: bundle.unit-test
     platform: iOS
     sources:
       - Packages/FlowKit/Tests
     dependencies:
-      - target: FlowMoney
+      - target: FlowKitTestHost
       - package: FlowKit
         product: FlowKitTesting
       - package: Supabase
@@ -98,7 +111,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.lynkto.flowmoney.tests
         GENERATE_INFOPLIST_FILE: YES
-        TEST_HOST: $(BUILT_PRODUCTS_DIR)/FlowMoney.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowMoney
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/FlowKitTestHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FlowKitTestHost
         BUNDLE_LOADER: $(TEST_HOST)
         SWIFT_UPCOMING_FEATURE_EXISTENTIAL_ANY: YES
 
