@@ -6,7 +6,7 @@ SCHEME := FlowMoney
 DEVICE_ID ?= $(shell xcrun xctrace list devices 2>/dev/null | grep -v Simulator | grep -E '\([0-9]+\.[0-9.]+\) \(' | head -1 | sed -E 's/.*\(([0-9A-Fa-f-]+)\)$$/\1/')
 DESTINATION ?= id=$(DEVICE_ID)
 XCBEAUTIFY := $(shell command -v xcbeautify 2>/dev/null || echo cat)
-XCODEBUILD := xcodebuild -project $(PROJECT) -scheme $(SCHEME) -derivedDataPath DerivedData -allowProvisioningUpdates
+XCODEBUILD := xcodebuild -project $(PROJECT) -scheme $(SCHEME) -allowProvisioningUpdates
 
 .PHONY: help bootstrap project open build run test test-unit test-ui lint format icon clean
 
@@ -26,7 +26,8 @@ build: project ## Debug build for the destination (default: connected iPhone)
 	$(XCODEBUILD) -destination '$(DESTINATION)' build | $(XCBEAUTIFY)
 
 run: build ## Build, install and launch on the connected iPhone
-	xcrun devicectl device install app --device $(DEVICE_ID) DerivedData/Build/Products/Debug-iphoneos/FlowMoney.app
+	set -o pipefail; APP_PATH="$$( $(XCODEBUILD) -destination '$(DESTINATION)' -showBuildSettings -json | python3 -c 'import json, sys; settings = next(item["buildSettings"] for item in json.load(sys.stdin) if item["target"] == "FlowMoney"); print(settings["TARGET_BUILD_DIR"] + "/" + settings["FULL_PRODUCT_NAME"])' )" && \
+	xcrun devicectl device install app --device $(DEVICE_ID) "$$APP_PATH"
 	xcrun devicectl device process launch --device $(DEVICE_ID) com.lynkto.flowmoney
 
 test-unit: project ## Unit tests (swift-testing), hosted in the app so they run on a real iPhone
